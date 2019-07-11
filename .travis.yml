@@ -1,0 +1,15 @@
+addons:
+  apt:
+    packages:
+      - rabbitmq-server
+language: python
+python:
+  - "3.6"
+  - "3.7"
+install:
+  - pip install -r requirements.txt
+script:
+  - celery multi start worker1 -A celery_travis_integration --pool=solo
+  - python manage.py test
+  - celery multi stopwait worker1
+dist: xenial
